@@ -1,5 +1,5 @@
 # Connect 4
-My first C project - an implementation of the Connect 4 game.
+My first C program - an implementation of the Connect 4 game.
 
 I have chosen to store the grid using a ‘2D array’ - essentially a pointer to a pointer to a character. Each token/position on the grid is a character, and I am considering the grid as an array of rows, so each row is considered an array of characters, and my grid ```**matrix``` is a pointer to this array of arrays of characters i.e like an array of strings where each string is a row. I chose this data structure because using simple pointer arithmetic, it is very efficient for selecting a particular character in the grid. ```*(u->matrix[i] + j)``` allows me to access the ```j```th character on the ```i```th row.
 
