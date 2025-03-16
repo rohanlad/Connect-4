@@ -11,24 +11,7 @@ move to consist of 2 integers. Throughout the program, whenever memory is dynami
 When memory for the board is initially stored, we incrementally dynamically allocate only enough memory that is required at the time in the code. So just enough memory is allocated to store an additional character in each row (using ```realloc```), each time a valid character in the input file is met, and once the row is complete and valid, enough memory is allocated to store just one new row in the board (using ```realloc```). This approach is more memory-efficient because it ensures we never allocate more memory than what we need. We always ensure that any dynamically allocated memory is freed. This is done primarily in the
 ```cleanup_board``` function, which first iterates through board ```u``` to free the memory that each character pointer points to (i.e clear each ‘row’). After that, board ```u``` itself is cleared, ultimately meaning that all the memory allocated both that ```u``` points at and within ```u``` is cleared. In the ```is_winning_move``` function, a similar thing is done for the variable ```store_old_board``` which is initialised in this function. All the memory is freed as soon as we are done with this variable, so before even returning from the function, as opposed to within the ```cleanup_board``` function which is called at the end of the program. This underlines my memory efficient approach - because I free memory as soon as I’m done with it. Throughout the code, whenever the program exits due to an error, if there is an existing file that has been opened, I always close it using ```fclose``` before the program exits, to be efficient with our resources.
 
-There are a few ways in which the robustness of ```main.c``` could be improved. Firstly, on line 7, I have the line infile=fopen("initial_board.txt","r"); This needs to be error handled because I
-immediately start using the infile variable in the line after. Infile would be NULL, if, say,
-initial
-_
-board.txt didn’t exist in the directory, which could cause problems down the line in our
-code. So I could implement an IF statement straight after this line which checks whether infille
-is NULL - if it is NULL, I should exit the program accordingly. Instead, as a workaround, I have
-had to implement this check within the function read
-in
-_
-_
-file in my connect4.c file just to make
-sure I still retain the robustness, but in an efficient program, if infile was NULL the code should
-terminate there and then and shouldn’t be calling read
-in
-_
-_
-file in the first place. Similarly, on line
+There are a few ways in which the robustness of ```main.c``` could be improved. Firstly, on line 7, the line ```infile=fopen("initial_board.txt","r")```; this needs to be appropriately error handled because the ```infile``` variable begins to be used immediately in the line after. ```infile``` would be ```NULL```, if, say, ```initial_board.txt``` didn’t exist in the directory, which could cause problems later down the line in the program. So a check could be implemented straight after this line that checks whether ```infile``` is ```NULL``` - if it is ```NULL```,the program could terminate accordingly. Instead, as a workaround, I have had to implement this check within the function ```read_in_file``` in my ```connect4.c``` file just to make sure I still retain the robustness, but in an efficient program, if ```infile``` was ```NULL``` the code should terminate there and then and shouldn’t be calling ```read_in_file``` in the first place. Similarly, on line
 21 I have outfile=fopen("final
 board.txt"
 ,
